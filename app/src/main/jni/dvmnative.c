@@ -585,7 +585,7 @@ static jobject getInlineOperation(JNIEnv* env, jclass obj) {
 	void *libdvm = dlopen("libdvm.so", RTLD_LAZY);
 	if (libdvm == NULL) {
 		LOGV("Failed to load libdvm\n");
-		return;
+		return NULL;
 	}
 	dvmGetInlineOpsTablePtr dvmGetInlineOpsTable = dlsym(libdvm, "dvmGetInlineOpsTable");
 	if (dvmGetInlineOpsTable == NULL) {
@@ -594,7 +594,7 @@ static jobject getInlineOperation(JNIEnv* env, jclass obj) {
 	if (dvmGetInlineOpsTable == NULL) {
 		LOGV("Failed to load dvmGetInlineOpsTable\n");
 		dlclose(libdvm);
-		return;
+		return NULL;
 	}
 	dvmGetInlineOpsTableLengthPtr dvmGetInlineOpsTableLength = dlsym(libdvm, "dvmGetInlineOpsTableLength");
 	if (dvmGetInlineOpsTableLength == NULL) {
@@ -603,7 +603,7 @@ static jobject getInlineOperation(JNIEnv* env, jclass obj) {
 	if (dvmGetInlineOpsTableLength == NULL) {
 		printf("Failed to load dvmGetInlineOpsTableLength\n");
 		dlclose(libdvm);
-		return;
+		return NULL;
 	}
     jclass  stringBuilder_class = (*env)->FindClass(env,"java/lang/StringBuilder"); 
     jmethodID initMethod = (*env)->GetMethodID(env,stringBuilder_class,"<init>","()V");  

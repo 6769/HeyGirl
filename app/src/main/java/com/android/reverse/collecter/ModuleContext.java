@@ -9,6 +9,7 @@ import com.android.reverse.hook.MethodHookCallBack;
 import com.android.reverse.mod.CommandBroadcastReceiver;
 import com.android.reverse.mod.PackageMetaInfo;
 import com.android.reverse.util.Utility;
+import com.android.reverse.util.Logger;
 import android.app.Application;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
@@ -23,6 +24,7 @@ public class ModuleContext {
 	private static ModuleContext moduleContext;
 	private HookHelperInterface hookhelper = HookHelperFacktory.getHookHelper();
 
+	private static String ONCREATE="onCreate";
 
 	private ModuleContext() {
         this.apiLevel = Utility.getApiLevel();
@@ -40,7 +42,7 @@ public class ModuleContext {
 		if (appClassName == null) {
 			Method hookOnCreateMethod = null;
 			try {
-				hookOnCreateMethod = Application.class.getDeclaredMethod("onCreate", new Class[] {});
+				hookOnCreateMethod = Application.class.getDeclaredMethod(ONCREATE, new Class[] {});
 			} catch (NoSuchMethodException e) {
 				e.printStackTrace();
 			}
@@ -51,7 +53,7 @@ public class ModuleContext {
 			try {
 				hook_application_class = this.getBaseClassLoader().loadClass(appClassName);
 				if (hook_application_class != null) {
-					Method hookOncreateMethod = hook_application_class.getDeclaredMethod("onCreate", new Class[] {});
+					Method hookOncreateMethod = hook_application_class.getDeclaredMethod(ONCREATE, new Class[] {});
 					if (hookOncreateMethod != null) {
 						hookhelper.hookMethod(hookOncreateMethod, new ApplicationOnCreateHook());
 					}
@@ -63,7 +65,7 @@ public class ModuleContext {
 				// TODO Auto-generated catch block
 				Method hookOncreateMethod;
 				try {
-					hookOncreateMethod = Application.class.getDeclaredMethod("onCreate", new Class[] {});
+					hookOncreateMethod = Application.class.getDeclaredMethod(ONCREATE, new Class[] {});
 					if (hookOncreateMethod != null) {
 						hookhelper.hookMethod(hookOncreateMethod, new ApplicationOnCreateHook());
 					}
@@ -110,10 +112,14 @@ public class ModuleContext {
 		public void beforeHookedMethod(HookParam param) {
 			// TODO Auto-generated method stub
 
+
 		}
 
 		@Override
 		public void afterHookedMethod(HookParam param) {
+
+            Logger.log("HookedMethod: "+param.method.getName());
+
 			// TODO Auto-generated method stub
 			if (!HAS_REGISTER_LISENER) {
 				fristApplication = (Application) param.thisObject;

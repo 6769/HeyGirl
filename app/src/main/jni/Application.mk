@@ -1,1 +1,1 @@
-APP_ABI := all
+APP_ABI := armeabi x86 armeabi-v7a

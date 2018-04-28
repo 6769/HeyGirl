@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
@@ -21,5 +23,7 @@ dvmnative.c\
 
 #dvmnative.c \
 LOCAL_LDLIBS := -ldl -llog
+
+LOCAL_LDFLAGS += -fPIC
 
 include $(BUILD_SHARED_LIBRARY)

@@ -14,13 +14,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);	
-		try {
-			
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			((InvocationTargetException)e).getTargetException().printStackTrace();
-		}
+
 	}
 
 
